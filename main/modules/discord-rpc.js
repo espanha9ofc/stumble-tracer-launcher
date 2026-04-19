@@ -5,11 +5,11 @@ let rpcClient = null;
 let rpcReady = false;
 let activityTimer = null;
 
-const CLIENT_ID = '1473895943261651135'; // Replace with your Discord Application ID
+const CLIENT_ID = '1475981619604099274'; // Replace with your Discord Application ID
 const startTimestamp = new Date();
 
 const RPC_BUTTONS = [
-  { label: 'Join Stumble Tracer', url: 'https://discord.gg/jzgeCsmmGg' }
+  { label: 'Join Stumble Tracer', url: 'https://discord.gg/k45zwwxfJh' }
 ];
 
 /**
@@ -60,7 +60,7 @@ function setIdleActivity() {
     rpcClient.setActivity({
       details: 'Browsing Launcher',
       startTimestamp,
-      largeImageKey: 'stumble_prime_logo',
+      largeImageKey: 'stumble_tracer',
       largeImageText: 'Stumble Tracer',
       buttons: RPC_BUTTONS,
       instance: false

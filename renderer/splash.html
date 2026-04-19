@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stumble Tracer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      -webkit-app-region: drag; /* allows moving window */
+    }
+
+    .splash-container {
+      width: 480px;
+      height: 340px;
+      background: rgba(10, 5, 20, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 15px 40px rgba(0,0,0,0.8),
+        0 0 100px rgba(139, 92, 246, 0.3),
+        inset 0 0 80px rgba(139, 92, 246, 0.1);
+    }
+
+    /* Ambient Glow Background */
+    .splash-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+      animation: rotateBg 10s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes rotateBg {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Logo Styling */
+    .logo-container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .logo-img {
+      width: 150px;
+      height: auto;
+      border-radius: 20px;
+      filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.6));
+      animation: floatLogo 3s ease-in-out infinite;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); filter: drop-shadow(0 0 35px rgba(139, 92, 246, 0.8)); }
+    }
+
+    .logo-subtitle {
+      font-size: 14px;
+      color: #fff;
+      letter-spacing: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-top: 15px;
+      background: linear-gradient(90deg, #a78bfa, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glowText 2s infinite alternate;
+    }
+
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px rgba(167, 139, 250, 0); }
+      to { text-shadow: 0 0 20px rgba(167, 139, 250, 0.5); }
+    }
+
+    /* Loading Bar Area */
+    .loading-section {
+      width: 70%;
+      position: relative;
+      z-index: 2;
+      margin-top: 35px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      animation: fadeIn 1s 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .loading-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    }
+
+    .loading-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, transparent, #a78bfa, #10b981, transparent);
+      border-radius: 4px;
+      box-shadow: 0 0 10px #a78bfa;
+      animation: sweep 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes sweep {
+      0% { left: -30%; width: 30%; }
+      50% { left: 40%; width: 50%; box-shadow: 0 0 20px #10b981; background: linear-gradient(90deg, transparent, #10b981, #a78bfa, transparent); }
+      100% { left: 100%; width: 30%; }
+    }
+
+    .loading-text {
+      margin-top: 12px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    <div class="logo-container">
+      <img src="assets/images/logo.png" alt="Stumble Tracer" class="logo-img">
+      <div class="logo-subtitle">Launcher</div>
+    </div>
+    <div class="loading-section">
+      <div class="loading-bar">
+        <div class="loading-fill"></div>
+      </div>
+      <div class="loading-text">Initializing Systems Data...</div>
+    </div>
+  </div>
+</body>
+</html>

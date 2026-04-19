@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stumble Tracer Launcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="preload" href="assets/images/banner.jpg" as="image">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+
+  <!-- ═══════════════ CUSTOM TITLE BAR ═══════════════ -->
+  <div id="titlebar">
+    <div class="titlebar-drag">
+      <div class="titlebar-logo">
+        <img src="assets/images/logo.png" alt="" class="titlebar-logo-img">
+        <span class="titlebar-title">Stumble Tracer</span>
+      </div>
+      <div class="titlebar-meta">
+        <span class="titlebar-chip">Desktop Launcher</span>
+        <span id="titlebar-active-page" class="titlebar-chip subtle">Home</span>
+      </div>
+    </div>
+    <div class="titlebar-side">
+      <span id="titlebar-availability" class="titlebar-chip availability">Preparing launcher</span>
+      <div class="titlebar-controls">
+        <button id="btn-minimize" class="titlebar-btn" title="Minimize">
+          <svg width="10" height="10" viewBox="0 0 12 12">
+            <rect y="5" width="12" height="1.5" rx="0.75" fill="currentColor" />
+          </svg>
+        </button>
+        <button id="btn-maximize" class="titlebar-btn" title="Maximize">
+          <svg width="10" height="10" viewBox="0 0 12 12">
+            <rect x="1.5" y="1.5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2" fill="none" />
+          </svg>
+        </button>
+        <button id="btn-close" class="titlebar-btn btn-close" title="Close">
+          <svg width="10" height="10" viewBox="0 0 12 12">
+            <path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Launcher Update Notification Bar (Hidden by default) -->
+  <div id="launcher-update-bar" class="launcher-update-bar hidden">
+    <div class="update-bar-content">
+      <div class="update-bar-info">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          class="update-pulse">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span id="update-bar-text">New version available</span>
+      </div>
+      <div id="update-bar-progress" class="update-bar-progress hidden">
+        <div id="update-bar-fill" class="update-bar-fill" style="width: 0%"></div>
+      </div>
+      <button id="update-bar-btn" class="update-bar-btn">RESTART TO UPDATE</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ NAVIGATION BAR ═══════════════ -->
+  <nav id="navbar">
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-page="home">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9,22 9,12 15,12 15,22" />
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href="#" class="nav-link" data-page="settings">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+        </svg>
+        <span>Settings</span>
+      </a>
+      <div class="nav-divider"></div>
+      <a href="#" class="nav-link" data-page="profile">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span>Profile</span>
+      </a>
+      <a href="#" class="nav-link" data-page="leaderboard">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 7h10v10H7z" />
+          <path d="M17 11v6H7v-6M3 7v10M21 7v10" />
+        </svg>
+        <span>Rankings</span>
+      </a>
+
+      <!-- Social Icons -->
+      <div class="nav-socials">
+        <a href="#" id="link-discord" class="social-icon" title="Discord">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
+          </svg>
+        </a>
+        <a href="#" id="link-youtube" class="social-icon" title="YouTube">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-status">
+      <!-- Notification Bell -->
+      <div id="notification-center" class="notification-center">
+        <button id="notification-bell" class="notification-bell" type="button" aria-label="Notifications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span id="notification-badge" class="notification-badge hidden">0</span>
+        </button>
+        <!-- Notification Dropdown -->
+        <div id="notification-dropdown" class="notification-dropdown hidden">
+          <div class="notification-dropdown-header">
+            <h3 class="notification-dropdown-title">Notifications</h3>
+            <div class="notification-dropdown-actions">
+              <button id="notification-mark-read" class="notification-header-btn" type="button">Mark all read</button>
+              <button id="notification-clear-all" class="notification-header-btn" type="button">Clear all</button>
+            </div>
+          </div>
+          <div id="notification-list" class="notification-list">
+            <div class="notification-empty">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                opacity="0.3">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <p>No notifications yet</p>
+              <span>Updates, news, and alerts will appear here.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span id="nav-version" class="nav-version-badge">Version 1.0.0</span>
+      <span id="nav-connection" class="nav-connection online">● Connected</span>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ PAGE CONTAINER ═══════════════ -->
+  <main id="page-container">
+
+    <!-- ──── HOME PAGE ──── -->
+    <div id="page-home" class="page active">
+
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div id="hero-slider" class="hero-slider"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <!-- LEFT: Game info -->
+          <div class="hero-info">
+            <span class="hero-kicker">Stumble Tracer Control</span>
+            <img src="assets/images/logo.png" alt="Stumble Tracer" class="hero-logo-img">
+            <h1 class="hero-title">Stumble Tracer</h1>
+            <p class="hero-description">A sharper desktop home for installs, screenshots, patch notes, and your next
+              match. Everything important stays one click away.</p>
+            <p class="hero-subtitle">Premium desktop surface for Stumble Tracer</p>
+            <div class="hero-meta">
+              <span id="home-version" class="meta-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+                Version: Loading...
+              </span>
+              <span id="home-status" class="meta-badge status-ready">
+                <span class="status-dot"></span>
+                <span id="server-status-text">Server Online</span>
+              </span>
+              <span class="meta-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Players: <span id="player-count">0</span>
+              </span>
+              <span class="meta-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Playtime: <span id="home-total-time">0h</span>
+              </span>
+            </div>
+            <div class="hero-highlights">
+              <div class="hero-highlight-card">
+                <span class="hero-highlight-label">Official Shots</span>
+                <strong id="hero-screenshot-count">0 visuals</strong>
+              </div>
+              <div class="hero-highlight-card">
+                <span class="hero-highlight-label">Launcher Mode</span>
+                <strong id="hero-mode-copy">Desktop-ready control surface</strong>
+              </div>
+              <div class="hero-highlight-card">
+                <span class="hero-highlight-label">Ready State</span>
+                <strong id="hero-ready-copy">Updates, setup, and play stay in sync</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Play button -->
+          <div class="play-section">
+            <div class="play-panel">
+              <div class="hero-spotlight">
+                <span class="hero-spotlight-label">Now Showing</span>
+                <strong id="hero-active-screenshot-title">Official visuals</strong>
+                <span id="hero-active-screenshot-meta">Latest in-game screenshots appear here first.</span>
+              </div>
+              <div class="play-panel-actions">
+                <button id="hero-open-lightbox" class="glass-action-btn" type="button">Open Screenshot</button>
+                <button id="hero-open-gallery" class="glass-action-btn" type="button">Media Gallery</button>
+              </div>
+              <button id="btn-play" class="play-btn">
+                <span class="play-btn-glow"></span>
+                <span class="play-btn-ring"></span>
+                <span class="play-btn-text">PLAY</span>
+              </button>
+              <div id="play-status-text" class="play-status-text"></div>
+              <div class="play-panel-note">Secure launch, live checks, and desktop-grade updates.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Bar (hidden by default) -->
+      <div id="download-progress" class="download-progress hidden">
+        <div class="progress-info">
+          <span id="progress-label">Downloading update...</span>
+          <span id="progress-details">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+        </div>
+        <div class="progress-meta">
+          <span id="progress-speed">-- MB/s</span>
+          <span id="progress-eta">ETA: --</span>
+        </div>
+      </div>
+
+      <div class="command-deck">
+        <div class="section-head command-deck-head">
+          <div>
+            <h2 class="section-title">Quick Actions</h2>
+            <p class="section-copy">The premium shortcuts that matter most while you play, update, or maintain the
+              launcher.</p>
+          </div>
+          <span id="home-refresh-pill" class="section-chip">Waiting for sync</span>
+        </div>
+        <div class="quick-action-grid">
+          <button class="quick-action-card" type="button" data-home-action="updates">
+            <span class="quick-action-label">Check Updates</span>
+            <strong class="quick-action-title">Refresh build status</strong>
+            <span class="quick-action-copy">Run a live version check without leaving home.</span>
+          </button>
+          <button class="quick-action-card" type="button" data-home-action="repair">
+            <span class="quick-action-label">Repair</span>
+            <strong id="home-repair-title" class="quick-action-title">Protect the install</strong>
+            <span id="home-repair-copy" class="quick-action-copy">Re-download broken or missing core files.</span>
+          </button>
+          <button class="quick-action-card" type="button" data-home-action="folder">
+            <span class="quick-action-label">Files</span>
+            <strong class="quick-action-title">Open install folder</strong>
+            <span class="quick-action-copy">Jump straight into the local game directory.</span>
+          </button>
+          <button class="quick-action-card" type="button" data-home-action="settings">
+            <span class="quick-action-label">Preferences</span>
+            <strong class="quick-action-title">Tune launcher setup</strong>
+            <span class="quick-action-copy">Adjust theme, startup, cache, storage, and behavior.</span>
+          </button>
+        </div>
+        <div class="launcher-health-grid">
+          <div class="health-card">
+            <span class="health-card-label">Install Path</span>
+            <strong id="home-install-path">--</strong>
+            <span class="health-card-copy">Primary location for your game files.</span>
+          </div>
+          <div class="health-card">
+            <span class="health-card-label">System</span>
+            <strong id="home-dependency-state">Checking requirements...</strong>
+            <span class="health-card-copy">Visual C++ and .NET desktop readiness.</span>
+          </div>
+          <div class="health-card">
+            <span class="health-card-label">Launcher State</span>
+            <strong id="home-mode-state">Preparing launcher</strong>
+            <span class="health-card-copy">Install, play, update, and sync status.</span>
+          </div>
+          <div class="health-card">
+            <span class="health-card-label">Content Refresh</span>
+            <strong id="home-refresh-state">Waiting for screenshots</strong>
+            <span class="health-card-copy">Auto-refresh keeps official shots current.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-section">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <circle cx="8.5" cy="10.5" r="1.5"></circle>
+                <path d="M21 15l-5-5L5 21"></path>
+              </svg>
+              Official Screenshots
+            </h2>
+            <p class="section-copy">Pick a shot to spotlight it in the hero, or open preview for a cleaner fullscreen
+              look.</p>
+          </div>
+          <span id="home-screenshot-count-badge" class="section-chip">0 visuals</span>
+        </div>
+        <div id="home-screenshot-grid" class="screenshot-showcase-grid">
+          <button class="screenshot-card placeholder-card" type="button">
+            <span class="placeholder-card-label">Loading screenshots...</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PATCH NOTES SECTION -->
+      <div class="news-section">
+        <h2 class="section-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          Patch Notes
+        </h2>
+        <div id="patch-notes-container" class="news-grid">
+          <div class="news-card">
+            <h3 class="news-card-title">Fetching latest updates...</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWS SECTION -->
+      <div class="news-section">
+        <h2 class="section-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14,2 14,8 20,8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+          News
+        </h2>
+        <div id="news-container" class="news-grid">
+          <!-- News cards rendered by JS -->
+        </div>
+      </div>
+
+      <div class="news-section">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 7h16"></path>
+                <path d="M4 12h16"></path>
+                <path d="M4 17h10"></path>
+              </svg>
+              Community Media
+            </h2>
+            <p class="section-copy">Extra clips and uploads from the launcher feed.</p>
+          </div>
+        </div>
+        <div id="launcher-media-grid" class="news-grid">
+          <div class="news-card">
+            <h3 class="news-card-title">Fetching launcher media...</h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ──── SETUP PAGE ──── -->
+    <div id="page-setup" class="page">
+      <div class="setup-container">
+        <div class="setup-layout">
+          <aside class="setup-side-panel">
+            <div class="setup-side-card hero">
+              <span class="setup-kicker">Premium Onboarding</span>
+              <h2 id="setup-summary-title" class="setup-summary-title">Prepare Your Desktop</h2>
+              <p id="setup-summary-copy" class="setup-summary-copy">A guided install that keeps setup, requirements, and
+                download status clear from start to finish.</p>
+            </div>
+            <div class="setup-side-card">
+              <span class="setup-side-label">System Checklist</span>
+              <div class="setup-checklist">
+                <div id="setup-check-storage" class="setup-check-item is-pending">
+                  <span class="setup-check-dot"></span>
+                  <div>
+                    <strong>Install location</strong>
+                    <span id="setup-check-storage-copy">Waiting for folder selection</span>
+                  </div>
+                </div>
+                <div id="setup-check-vcredist" class="setup-check-item is-pending">
+                  <span class="setup-check-dot"></span>
+                  <div>
+                    <strong>Visual C++ Redistributable</strong>
+                    <span id="setup-check-vcredist-copy">Pending system check</span>
+                  </div>
+                </div>
+                <div id="setup-check-dotnet" class="setup-check-item is-pending">
+                  <span class="setup-check-dot"></span>
+                  <div>
+                    <strong>.NET Desktop Runtime</strong>
+                    <span id="setup-check-dotnet-copy">Pending system check</span>
+                  </div>
+                </div>
+                <div id="setup-check-download" class="setup-check-item is-pending">
+                  <span class="setup-check-dot"></span>
+                  <div>
+                    <strong>Download package</strong>
+                    <span id="setup-check-download-copy">Waiting for installation to begin</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="setup-main-panel">
+            <div class="setup-step-rail">
+              <div class="setup-step active" data-setup-step="1">
+                <span class="setup-step-number">01</span>
+                <span class="setup-step-label">Welcome</span>
+              </div>
+              <div class="setup-step" data-setup-step="2">
+                <span class="setup-step-number">02</span>
+                <span class="setup-step-label">Requirements</span>
+              </div>
+              <div class="setup-step" data-setup-step="3">
+                <span class="setup-step-number">03</span>
+                <span class="setup-step-label">Download</span>
+              </div>
+              <div class="setup-step" data-setup-step="4">
+                <span class="setup-step-number">04</span>
+                <span class="setup-step-label">Finish</span>
+              </div>
+            </div>
+            <div class="setup-stage-shell">
+
+              <!-- Screen 1: Welcome -->
+              <div id="setup-screen-1" class="setup-screen active">
+                <div class="setup-header">
+                  <h1 class="setup-title">Welcome to Stumble Tracer</h1>
+                  <p class="setup-subtitle">A cleaner install flow for your launcher, game files, and system
+                    dependencies.</p>
+                </div>
+                <div class="setup-inline-grid">
+                  <div class="setup-info-card">
+                    <span class="setup-info-label">Launcher Flow</span>
+                    <strong>Install, update, and launch from one premium surface.</strong>
+                  </div>
+                  <div class="setup-info-card">
+                    <span class="setup-info-label">System Ready</span>
+                    <strong>We will verify Visual C++ and .NET before download starts.</strong>
+                  </div>
+                </div>
+                <div class="setup-actions">
+                  <button id="setup-btn-next-1" class="play-btn setup-btn">
+                    <span class="play-btn-text">Begin Setup</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Screen 2: Install Options -->
+              <div id="setup-screen-2" class="setup-screen hidden">
+                <div class="setup-header">
+                  <h1 class="setup-title">Choose Install Location</h1>
+                  <p class="setup-subtitle">Select where the game lives, then let the launcher prepare required
+                    components.</p>
+                </div>
+
+                <div class="setup-dir-picker">
+                  <input type="text" id="setup-install-dir" class="dir-input" readonly>
+                  <button id="setup-browse-btn" class="browse-btn">Browse</button>
+                </div>
+
+                <div class="setup-inline-grid compact">
+                  <div class="setup-info-card">
+                    <span class="setup-info-label">Install Path</span>
+                    <strong id="setup-dir-preview">Waiting for location</strong>
+                  </div>
+                  <div class="setup-info-card">
+                    <span class="setup-info-label">Requirements</span>
+                    <strong id="setup-requirement-summary">Checking system dependencies</strong>
+                  </div>
+                </div>
+
+                <div class="step-status" id="step2-status">
+                  <span class="spinner"></span> Checking system dependencies...
+                </div>
+
+                <div class="setup-actions">
+                  <button id="setup-btn-next-2" class="play-btn setup-btn" disabled>
+                    <span class="play-btn-text">Download</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Screen 3: Downloading -->
+              <div id="setup-screen-3" class="setup-screen hidden">
+                <div class="setup-header">
+                  <h1 class="setup-title">Downloading Secure Package</h1>
+                  <p class="setup-subtitle">Keep the launcher open while the game files are delivered and prepared.</p>
+                </div>
+
+                <div class="setup-inline-grid compact">
+                  <div class="setup-info-card">
+                    <span class="setup-info-label">Transfer Mode</span>
+                    <strong id="setup-download-stage">Secure desktop download</strong>
+                  </div>
+                  <div class="setup-info-card">
+                    <span class="setup-info-label">Current Status</span>
+                    <strong id="setup-download-hint">Connecting to servers</strong>
+                  </div>
+                </div>
+
+                <div id="setup-download-progress" class="setup-progress">
+                  <div class="progress-track">
+                    <div id="setup-progress-fill" class="progress-fill" style="width: 0%"></div>
+                  </div>
+                  <div class="setup-progress-meta">
+                    <span id="setup-progress-text" class="progress-text">Initializing...</span>
+                    <span id="setup-progress-percent" class="setup-progress-percent">0%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen 4: Finished -->
+              <div id="setup-screen-4" class="setup-screen hidden">
+                <div class="setup-header">
+                  <div class="setup-finish-icon">✓</div>
+                  <h1 class="setup-title setup-title-success">Setup
+                    Complete</h1>
+                  <p class="setup-subtitle">Everything is installed, checked, and ready for your first launch.</p>
+                </div>
+                <div class="setup-inline-grid compact">
+                  <div class="setup-info-card success">
+                    <span class="setup-info-label">Install</span>
+                    <strong id="setup-finish-install">Game files are ready</strong>
+                  </div>
+                  <div class="setup-info-card success">
+                    <span class="setup-info-label">System</span>
+                    <strong id="setup-finish-deps">VC++ and .NET confirmed</strong>
+                  </div>
+                </div>
+                <div class="setup-actions">
+                  <button id="setup-btn-finish" class="play-btn setup-btn">
+                    <span class="play-btn-glow"></span>
+                    <span class="play-btn-text">Start Playing</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──── SETTINGS PAGE (macOS Ventura Style) ──── -->
+    <div id="page-settings" class="page">
+      <div class="settings-ventura">
+        <!-- Sidebar Navigation -->
+        <aside class="settings-sidebar">
+          <div class="settings-sidebar-header">
+            <h1 class="settings-sidebar-title">Settings</h1>
+          </div>
+          <nav class="settings-nav">
+            <button class="settings-nav-item active" data-settings-section="general">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+              <span>General</span>
+            </button>
+            <button class="settings-nav-item" data-settings-section="integration">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+              <span>Integration</span>
+            </button>
+            <button class="settings-nav-item" data-settings-section="storage">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <ellipse cx="12" cy="5" rx="9" ry="3" />
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+              </svg>
+              <span>Storage</span>
+            </button>
+            <button class="settings-nav-item" data-settings-section="appearance">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+              <span>Appearance</span>
+            </button>
+            <button class="settings-nav-item" data-settings-section="about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              <span>About</span>
+            </button>
+          </nav>
+          <!-- Overview Cards at bottom of sidebar -->
+          <div class="settings-sidebar-overview">
+            <div class="settings-overview-mini">
+              <span class="settings-overview-mini-label">Build</span>
+              <strong id="settings-overview-version">--</strong>
+            </div>
+            <div class="settings-overview-mini">
+              <span class="settings-overview-mini-label">Install</span>
+              <strong id="settings-overview-install">Checking...</strong>
+            </div>
+            <div class="settings-overview-mini">
+              <span class="settings-overview-mini-label">Deps</span>
+              <strong id="settings-overview-deps">Checking...</strong>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="settings-main">
+          <!-- General Section -->
+          <div id="settings-section-general" class="settings-section active">
+            <div class="settings-section-header">
+              <h2 class="settings-section-title">General</h2>
+              <p class="settings-section-desc">Control how the launcher behaves on startup and during updates.</p>
+            </div>
+            <div class="settings-card">
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Auto-Update</span>
+                  <span class="settings-item-desc">Automatically check and install updates on launch</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-autoUpdate" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Background Downloading</span>
+                  <span class="settings-item-desc">Prevent system sleep during active downloads</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-backgroundDownload">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Launch on Startup</span>
+                  <span class="settings-item-desc">Start the launcher when Windows boots</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-launchOnStartup">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Close to Taskbar</span>
+                  <span class="settings-item-desc">Keep launcher running in taskbar when closed</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-minimizeToTray" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Minimize on Game Launch</span>
+                  <span class="settings-item-desc">Minimize launcher when the game starts</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-minimizeOnLaunch" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integration Section -->
+          <div id="settings-section-integration" class="settings-section">
+            <div class="settings-section-header">
+              <h2 class="settings-section-title">Integration</h2>
+              <p class="settings-section-desc">Connect Stumble Tracer with Discord, overlays, and system audio.</p>
+            </div>
+            <div class="settings-card">
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Discord Rich Presence</span>
+                  <span class="settings-item-desc">Show your game activity on Discord</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-discordRPC" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Show Mini Overlay</span>
+                  <span class="settings-item-desc">Interactive stats window while playing (includes timer & quick
+                    actions)</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-enableOverlay" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Sound Effects</span>
+                  <span class="settings-item-desc">Play audio feedback for actions like play, update, and
+                    notifications</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="setting-soundEffects" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Storage Section -->
+          <div id="settings-section-storage" class="settings-section">
+            <div class="settings-section-header">
+              <h2 class="settings-section-title">Storage</h2>
+              <p class="settings-section-desc">Manage game files, cache, and install location.</p>
+            </div>
+            <div class="settings-card">
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Install Directory</span>
+                  <span class="settings-item-desc" id="settings-install-path">--</span>
+                </div>
+                <button id="settings-change-dir" class="settings-btn">Change</button>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Open Install Folder</span>
+                  <span class="settings-item-desc">View game files in Explorer</span>
+                </div>
+                <button id="settings-open-dir" class="settings-btn">Open</button>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Clear Cache</span>
+                  <span class="settings-item-desc">Remove temporary download files</span>
+                </div>
+                <button id="settings-clear-cache" class="settings-btn danger">Clear</button>
+              </div>
+              <div class="settings-item" id="settings-repair-row" style="display: none;">
+                <div class="settings-item-info">
+                  <span class="settings-item-label" data-t="repair">Repair Game</span>
+                  <span class="settings-item-desc">Redownload broken or missing core files</span>
+                </div>
+                <button id="settings-repair-btn" class="settings-btn secondary" data-t="repair">Repair</button>
+              </div>
+              <div class="settings-item" id="settings-uninstall-row" style="display: none;">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Uninstall Stumble Tracer</span>
+                  <span class="settings-item-desc">Completely remove the game from your computer</span>
+                </div>
+                <button id="settings-uninstall-btn" class="settings-btn danger">Uninstall</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Appearance Section -->
+          <div id="settings-section-appearance" class="settings-section">
+            <div class="settings-section-header">
+              <h2 class="settings-section-title">Appearance</h2>
+              <p class="settings-section-desc">Customize the look and language of your launcher.</p>
+            </div>
+            <div class="settings-card">
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label">Launcher Theme</span>
+                  <span class="settings-item-desc">Select your preferred color scheme</span>
+                </div>
+                <select id="setting-theme" class="settings-select">
+                  <option value="amethyst">Amethyst (Purple)</option>
+                  <option value="emerald">Emerald (Green)</option>
+                  <option value="sapphire">Sapphire (Blue)</option>
+                  <option value="gold">Gold (Amber)</option>
+                </select>
+              </div>
+              <div class="settings-item">
+                <div class="settings-item-info">
+                  <span class="settings-item-label" data-t="choose_lang">Launcher Language</span>
+                </div>
+                <select id="setting-language" class="settings-select">
+                  <option value="en">English</option>
+                  <option value="bn">বাংলা</option>
+                  <option value="es">Español</option>
+                  <option value="pt">Português</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- About Section -->
+          <div id="settings-section-about" class="settings-section">
+            <div class="settings-section-header">
+              <h2 class="settings-section-title">About</h2>
+              <p class="settings-section-desc">Version info and credits.</p>
+            </div>
+            <div class="settings-card about-card">
+              <img src="assets/images/logo.png" alt="Stumble Tracer" class="about-logo-img">
+              <div class="about-details">
+                <div class="about-version">Stumble Tracer Launcher v1.0.0</div>
+                <div class="about-copyright">© 2026 Stumble Tracer Team. All rights reserved.</div>
+                <div class="about-meta-row">
+                  <span class="settings-overview-mini-label">Install</span>
+                  <strong id="settings-overview-path">--</strong>
+                </div>
+                <div class="about-meta-row">
+                  <span class="settings-overview-mini-label">Preferences</span>
+                  <strong id="settings-overview-prefs">Theme and startup syncing</strong>
+                </div>
+                <div class="about-meta-row">
+                  <span class="settings-overview-mini-label">Language</span>
+                  <strong id="settings-overview-theme">--</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ MEDIA GALLERY PAGE ═══════════════ -->
+    <div id="page-media" class="page hidden">
+      <div class="page-header">
+        <h1 class="page-title" data-t="media">Media Gallery</h1>
+      </div>
+      <div id="launcher-media-grid-page" class="news-grid" style="padding: 20px 28px;">
+        <!-- Media items loaded via JS -->
+      </div>
+    </div>
+
+    <!-- ──── PROFILE PAGE ──── -->
+    <div id="page-profile" class="page hidden">
+      <div class="profile-header">
+        <div class="user-big-card">
+          <div class="avatar-ring">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="" id="prof-avatar"
+              class="prof-avatar-img">
+            <div id="prof-online-dot" class="status-dot"></div>
+          </div>
+          <div class="user-meta-info">
+            <h1 id="prof-name">--</h1>
+            <p id="prof-joined">Joined: --</p>
+          </div>
+        </div>
+
+        <div class="profile-summary-stats">
+          <div class="p-stat">
+            <span class="p-stat-val" id="prof-total-time">0h</span>
+            <span class="p-stat-label">Total Played</span>
+          </div>
+          <div class="p-stat">
+            <span class="p-stat-val" id="prof-session-count">0</span>
+            <span class="p-stat-label">Sessions</span>
+          </div>
+          <div class="p-stat">
+            <span class="p-stat-val" id="prof-last-session">--</span>
+            <span class="p-stat-label">Last Session</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-history">
+        <h2 class="section-title">Play Session History</h2>
+        <div id="history-list" class="history-list">
+          <!-- History items -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ──── LEADERBOARD PAGE ──── -->
+    <div id="page-leaderboard" class="page hidden">
+      <div class="page-header">
+        <h1 class="page-title">Rankings</h1>
+        <p class="page-desc">Live community standings based on total playtime across Stumble Tracer.</p>
+      </div>
+      <div id="leaderboard-container" class="leaderboard-container">
+        <!-- Leaderboard items -->
+      </div>
+    </div>
+
+  </main>
+
+  <div id="screenshot-lightbox" class="screenshot-lightbox hidden" aria-hidden="true">
+    <button id="lightbox-close" class="lightbox-close-btn" type="button"
+      aria-label="Close screenshot viewer">&times;</button>
+    <button id="lightbox-prev" class="lightbox-nav-btn prev" type="button"
+      aria-label="Previous screenshot">&lsaquo;</button>
+    <div class="screenshot-lightbox-dialog">
+      <div class="screenshot-lightbox-stage">
+        <img id="lightbox-image" class="screenshot-lightbox-image" src="assets/images/banner.jpg"
+          alt="Screenshot preview">
+      </div>
+      <div class="screenshot-lightbox-meta">
+        <span id="lightbox-count" class="screenshot-lightbox-count">1 / 1</span>
+        <strong id="lightbox-title" class="screenshot-lightbox-title">Official Screenshot</strong>
+        <span id="lightbox-date" class="screenshot-lightbox-date">Added --</span>
+      </div>
+    </div>
+    <button id="lightbox-next" class="lightbox-nav-btn next" type="button"
+      aria-label="Next screenshot">&rsaquo;</button>
+  </div>
+
+  <!-- ═══════════════ IDENTITY SETUP OVERLAY ═══════════════ -->
+  <div id="identity-overlay" class="identity-overlay hidden">
+    <div class="identity-card">
+      <div class="identity-header">
+        <h2>Set Your Identity</h2>
+        <p>Choose a name and avatar to be seen by the community.</p>
+      </div>
+
+      <div class="avatar-picker">
+        <button id="id-prev-avatar" class="nav-btn">❮</button>
+        <div class="current-avatar-circle">
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" id="id-setup-avatar" alt="Avatar">
+        </div>
+        <button id="id-next-avatar" class="nav-btn">❯</button>
+      </div>
+
+      <div class="input-group">
+        <input type="text" id="id-setup-name" placeholder="Username (max 15 chars)" maxlength="15">
+      </div>
+
+      <button id="id-btn-save" class="primary-btn">Complete Setup</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TOAST CONTAINER ═══════════════ -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ═══════════════ FIRST TIME TUTORIAL ═══════════════ -->
+  <div id="tutorial-overlay" class="tutorial-overlay hidden">
+    <div class="tutorial-modal">
+      <div class="tutorial-slides">
+
+        <!-- Slide 1 -->
+        <div class="tut-slide active" data-index="0">
+          <div class="tut-icon">🎉</div>
+          <h2>Welcome to Stumble Tracer</h2>
+          <p>This is your all-in-one control center. Just click play and we handle the rest.</p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="tut-slide" data-index="1">
+          <div class="tut-icon">⚡</div>
+          <h2>Auto Updates</h2>
+          <p>Never worry about mod DLLs or game patches again. The launcher keeps everything updated behind the scenes.
+          </p>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="tut-slide" data-index="2">
+          <div class="tut-icon">🎧</div>
+          <h2>Discord Ready</h2>
+          <p>Your friends will automatically see when you are playing Stumble Tracer directly on Discord!</p>
+        </div>
+
+      </div>
+
+      <div class="tutorial-footer">
+        <div class="tut-dots">
+          <span class="tut-dot active"></span>
+          <span class="tut-dot"></span>
+          <span class="tut-dot"></span>
+        </div>
+        <button id="tut-next-btn" class="tut-btn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Language is now changed from Settings page only -->
+
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/sound-manager.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>

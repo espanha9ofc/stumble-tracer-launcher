@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stumble Tracer | Admin Panel</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      if (!localStorage.getItem('adminToken')) { window.location.href = '/'; }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-layout">
+    
+    <!-- ═══════════════ SIDEBAR ═══════════════ -->
+    <div class="sidebar">
+        <div class="sidebar-brand">Stumble Tracer</div>
+        <ul class="nav-links">
+            <li>
+                <a href="#" class="tab-link active" data-tab="overview">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Overview
+                </a>
+            </li>
+            <li>
+                <a href="#" class="tab-link" data-tab="files">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Update Center
+                </a>
+            </li>
+            <li>
+                <a href="#" class="tab-link" data-tab="control">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Server Control
+                </a>
+            </li>
+            <li>
+                <a href="#" class="tab-link" data-tab="news">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Patch Notes
+                </a>
+            </li>
+            <li>
+                <a href="#" class="tab-link" data-tab="media">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Media Gallery
+                </a>
+            </li>
+            <li>
+                <a href="#" class="tab-link" data-tab="analytics">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    Advanced Analytics
+                </a>
+            </li>
+            <li class="nav-spacer"></li>
+            <li>
+                <a href="#" id="logout-btn" class="nav-logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h2>Control Panel</h2>
+                <p class="header-subtitle">Welcome back, <span id="admin-name" class="header-admin-name">Master Admin</span></p>
+            </div>
+            <div id="connection-status" class="connection-badge online">● Online</div>
+        </div>
+
+        <!-- ══════ TAB: Overview ══════ -->
+        <div id="tab-overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="glass-panel stat-card">
+                    <p class="stat-label">Active Players</p>
+                    <div class="stat-value success" id="stat-active">0</div>
+                </div>
+                <div class="glass-panel stat-card">
+                    <p class="stat-label">Game Version</p>
+                    <div class="stat-value" id="stat-game-version">--</div>
+                </div>
+                <div class="glass-panel stat-card">
+                    <p class="stat-label">DLL Version</p>
+                    <div class="stat-value" id="stat-dll-version">--</div>
+                </div>
+                <div class="glass-panel stat-card">
+                    <p class="stat-label">Total Play Time</p>
+                    <div class="stat-value accent" id="stat-playtime">0h</div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h3 class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Live Player Analytics
+                </h3>
+                <div id="analytics-table-container">
+                    <p class="text-muted">Gathering data from connected devices...</p>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h3 class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    System Health
+                </h3>
+                <p class="text-muted">All systems operational. Database connected to MongoDB Atlas.</p>
+            </div>
+
+            <!-- Maintenance & Storage -->
+            <div class="glass-panel" style="border: 1px solid rgba(255, 68, 68, 0.2);">
+                <h3 class="panel-title" style="color: var(--danger);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Maintenance & Storage
+                </h3>
+                <p class="text-mini mb-15">Database storage is currently at 512MB limit. Clearning "Ghost" files can prevent crashes.</p>
+                <button id="btn-purge" class="btn danger-btn btn-block">Purge Database Storage</button>
+                <div class="text-mini" style="margin-top: 10px; opacity: 0.6; font-size: 10px;">
+                    ⚠️ WARNING: This will delete the Game ZIP and DLL from the database.
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════ TAB: Files ══════ -->
+        <div id="tab-files" class="tab-content">
+            <h3 class="mb-30">Update Center</h3>
+            <div class="upload-grid">
+                <!-- Game Upload -->
+                <div class="glass-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
+                        <h4 style="margin: 0;">Target Game (ZIP)</h4>
+                        <div style="text-align: right;">
+                            <span style="font-size: 13px; color: var(--primary-light);" id="hosted-game-v">v0.0.0</span><br>
+                            <span style="font-size: 11px; color: var(--text-muted);" id="hosted-game-date">No upload data</span>
+                        </div>
+                    </div>
+                    <div class="upload-zone" id="zone-game">
+                        <div class="upload-zone-icon">📦</div>
+                        <span class="upload-zone-text">Click to select Stumble Tracer.zip</span>
+                        <input type="file" id="game-file" accept=".zip">
+                    </div>
+                    <div class="form-group">
+                        <label>New Version</label>
+                        <input type="text" id="game-version-input" placeholder="e.g. 1.2.0">
+                    </div>
+                    <button class="btn primary-btn btn-block" id="btn-upload-game">Push Game Update</button>
+                    <!-- Progress UI -->
+                    <div class="progress-container" id="game-progress" style="display: none; margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">
+                            <span>Uploading Game...</span>
+                            <span id="game-progress-text">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="game-progress-bar" style="width: 0%; animation: none;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DLL Upload -->
+                <div class="glass-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
+                        <h4 style="margin: 0;">Mod DLL (mod.dll)</h4>
+                        <div style="text-align: right;">
+                            <span style="font-size: 13px; color: var(--primary-light);" id="hosted-dll-v">v0.0.0</span><br>
+                            <span style="font-size: 11px; color: var(--text-muted);" id="hosted-dll-date">No upload data</span>
+                        </div>
+                    </div>
+                    <div class="upload-zone" id="zone-dll">
+                        <div class="upload-zone-icon">⚙️</div>
+                        <span class="upload-zone-text">Click to select mod.dll</span>
+                        <input type="file" id="dll-file" accept=".dll">
+                    </div>
+                    <div class="form-group">
+                        <label>New DLL Version</label>
+                        <input type="text" id="dll-version-input" placeholder="e.g. 1.0.5">
+                    </div>
+                    <button class="btn primary-btn btn-block" id="btn-upload-dll">Push DLL Patch</button>
+                    <!-- Progress UI -->
+                    <div class="progress-container" id="dll-progress" style="display: none; margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">
+                            <span>Uploading DLL...</span>
+                            <span id="dll-progress-text">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="dll-progress-bar" style="width: 0%; animation: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════ TAB: Control ══════ -->
+        <div id="tab-control" class="tab-content">
+            <div class="glass-panel max-w-600">
+                <h3 class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    Global Configuration
+                </h3>
+                
+                <div class="form-group">
+                    <label>Server Status</label>
+                    <select id="config-status">
+                        <option value="online">Online</option>
+                        <option value="maintenance">Maintenance Mode</option>
+                        <option value="offline">Offline</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Broadcast Message (Ticker)</label>
+                    <input type="text" id="config-notice" placeholder="Global notice text...">
+                </div>
+
+                <div class="form-group">
+                    <label>Social Links</label>
+                    <div class="input-row">
+                        <input type="text" id="config-discord" placeholder="Discord Invite URL">
+                        <input type="text" id="config-youtube" placeholder="YouTube Channel URL">
+                        <input type="text" id="config-facebook" placeholder="Facebook URL">
+                    </div>
+                </div>
+
+                <button class="btn primary-btn btn-block" id="btn-save-config">Save All Changes</button>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                    <button class="btn" style="background: var(--bg-card);" id="btn-upload-logo">🖼 Update Logo</button>
+                    <button class="btn" style="background: var(--bg-card);" id="btn-upload-banner">🌄 Update Banner</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════ TAB: News ══════ -->
+        <div id="tab-news" class="tab-content">
+            <div class="glass-panel max-w-800">
+                <h3 class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Post News / Patch Notes
+                </h3>
+                
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="news-category">
+                        <option value="news">General News</option>
+                        <option value="patch_notes">Patch Notes</option>
+                        <option value="event">Event Announcement</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="news-title" placeholder="Update Title...">
+                </div>
+
+                <div class="form-group">
+                    <label>Summary (Short)</label>
+                    <input type="text" id="news-excerpt" placeholder="Short description...">
+                </div>
+
+                <div class="form-group">
+                    <label>News Image (Optional)</label>
+                    <input type="file" id="news-image-input" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>Full Content</label>
+                    <textarea id="news-content" rows="5" placeholder="Detailed content..."></textarea>
+                </div>
+
+                <button class="btn primary-btn btn-block" id="btn-post-news">Publish Article</button>
+            </div>
+
+            <!-- Existing News List -->
+            <div class="glass-panel max-w-800 mt-30">
+                <h3 class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    Published Articles
+                </h3>
+                <div id="news-list" class="news-list">
+                    <p class="text-muted">Loading articles...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════ TAB: Media ══════ -->
+        <div id="tab-media" class="tab-content">
+            <!-- Official Screenshots Section -->
+            <div class="glass-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 class="panel-title" style="margin-bottom: 0; color: var(--primary-light);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        Official Game Screenshots
+                    </h3>
+                    <button class="btn primary-btn" id="btn-add-screenshot">+ Add Screenshot</button>
+                </div>
+                <div id="screenshot-list" class="media-grid">
+                    <p class="text-muted">Loading screenshots...</p>
+                </div>
+            </div>
+
+            <!-- Community Gallery Section -->
+            <div class="glass-panel mt-30">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 class="panel-title" style="margin-bottom: 0;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        Community Gallery
+                    </h3>
+                    <button class="btn" style="background: var(--bg-card); border: 1px solid var(--border);" id="btn-upload-media">+ Upload Media</button>
+                </div>
+                <div id="media-list" class="media-grid">
+                    <p class="text-muted">Loading gallery...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════ TAB: Analytics ══════ -->
+        <div id="tab-analytics" class="tab-content">
+            <div class="stats-grid" id="analytics-metric-cards">
+                <div class="stat-card">
+                    <div class="stat-card-title">Live Online</div>
+                    <div class="stat-card-value pulse" id="ana-live-players">0</div>
+                    <div class="stat-card-desc">Currently in launcher</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Daily Active (DAP)</div>
+                    <div class="stat-card-value" id="ana-dap">0</div>
+                    <div class="stat-card-desc">Unique users last 24h</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Players</div>
+                    <div class="stat-card-value" id="ana-total-players">0</div>
+                    <div class="stat-card-desc">Total HWIDs registered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Playtime</div>
+                    <div class="stat-card-value" id="ana-total-hours">0h</div>
+                    <div class="stat-card-desc">Combined server hours</div>
+                </div>
+            </div>
+
+            <div class="analytics-grid mt-30">
+                <div class="glass-panel">
+                    <h3 class="panel-title">Player Growth (30 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel">
+                    <h3 class="panel-title">Active Hours (Peak Times)</h3>
+                    <div class="chart-container">
+                        <canvas id="activeHoursChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel mt-30">
+                <h3 class="panel-title">Top Players by Playtime</h3>
+                <div id="top-players-container">
+                    <p class="text-muted">Loading leaderboard...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

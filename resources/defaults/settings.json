@@ -1,0 +1,13 @@
+{
+  "autoUpdate": true,
+  "discordRPC": true,
+  "launchOnStartup": true,
+  "installDirectory": "",
+  "minimizeToTray": true,
+  "minimizeOnLaunch": true,
+  "closeOnGameExit": false,
+  "firstRun": true,
+  "tutorialSeen": false,
+  "enableOverlay": true,
+  "soundEffects": true
+}

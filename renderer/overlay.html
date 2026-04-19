@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/overlay.css">
+</head>
+
+<body>
+  <div id="overlay-wrapper">
+    <!-- Dynamic Island -->
+    <div id="dynamic-island" class="island">
+
+      <!-- Compact State (default) -->
+      <div class="island-compact">
+        <!-- Left: Game Status -->
+        <div class="island-segment island-left">
+          <div class="island-indicator"></div>
+          <div class="island-icon-group">
+            <svg class="island-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span id="timer" class="island-value">00:00</span>
+          </div>
+        </div>
+
+        <!-- Center: Metrics -->
+        <div class="island-segment island-center">
+          <div class="island-metric">
+            <svg class="island-svg metric-svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"></path>
+            </svg>
+            <span id="stat-cpu" class="island-metric-value">0%</span>
+          </div>
+          <div class="island-dot-divider"></div>
+          <div class="island-metric">
+            <svg class="island-svg metric-svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z">
+              </path>
+              <line x1="9" y1="21" x2="15" y2="21"></line>
+            </svg>
+            <span id="stat-ram" class="island-metric-value">0.0</span>
+          </div>
+          <div class="island-dot-divider"></div>
+          <div class="island-metric">
+            <svg class="island-svg metric-svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+            </svg>
+            <span id="stat-fps" class="island-metric-value">00</span>
+          </div>
+        </div>
+
+        <!-- Right: Online -->
+        <div class="island-segment island-right">
+          <div class="island-metric">
+            <svg class="island-svg metric-svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span id="stat-online" class="island-metric-value">--</span>
+          </div>
+          <button class="island-home-btn" id="btn-open-launcher" title="Open Launcher">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Expanded Ticker (slides down inside island) -->
+      <div id="pill-ticker" class="island-ticker">
+        <div class="ticker-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </div>
+        <div class="ticker-scroll">
+          <span id="ticker-text" class="ticker-label">--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/overlay.js"></script>
+</body>
+
+</html>

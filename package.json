@@ -1,0 +1,55 @@
+{
+  "name": "stumble-tracer-launcher",
+  "version": "1.0.0",
+  "description": "Premium game launcher for Stumble Tracer",
+  "main": "main/main.js",
+  "author": "Stumble Tracer Team",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder build --win",
+    "pack": "electron-builder --dir"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "discord-rpc": "^4.0.1",
+    "electron-updater": "^6.1.7",
+    "fs-extra": "^11.2.0",
+    "semver": "^7.5.4"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.Stumble Tracer.launcher",
+    "productName": "Stumble Tracer Launcher",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "renderer/assets/images/logo.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "${productName} Setup.${ext}"
+    },
+    "files": [
+      "main/**/*",
+      "renderer/**/*",
+      "resources/**/*"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "YOUR_GITHUB_USERNAME",
+      "repo": "stumble-tracer-launcher"
+    }
+  }
+}
